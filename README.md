@@ -7,6 +7,7 @@ This repository contains an end-to-end machine learning pipeline to predict diab
 *   `train_models.py`: The original baseline training script that compares Logistic Regression, Random Forest, and XGBoost.
 *   `train_optimized.py`: The final, optimized script. It performs Hyperparameter Tuning using `RandomizedSearchCV` with K-Fold Cross-Validation on the XGBoost model to find the best settings, and then exports the model.
 *   `predict.py`: An inference script that loads the saved model (`best_xgboost_model.pkl`) and makes a prediction on a sample patient profile.
+*   `app.py`: A sleek Streamlit web application that provides a user-friendly UI for making real-time predictions.
 *   `combined_roc_curve.png`: ROC curve comparing model performance.
 *   `feature_importance.png`: Feature importance chart showing which medical indicators drive the predictions.
 
@@ -30,10 +31,16 @@ This repository contains an end-to-end machine learning pipeline to predict diab
     python train_optimized.py
     ```
 
-4.  **Run Inference:**
-    To test the exported model on a new (mock) patient profile:
+4.  **Run Inference (Terminal):**
+    To test the exported model on a new (mock) patient profile from the command line:
     ```bash
     python predict.py
+    ```
+
+5.  **Run the Web Application:**
+    To launch the interactive UI in your browser:
+    ```bash
+    streamlit run app.py
     ```
 
 ## Model Evaluation
