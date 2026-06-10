@@ -4,16 +4,16 @@ This repository contains an end-to-end machine learning pipeline to predict diab
 
 ## Project Structure
 
-*   `train_models.py`: The original baseline training script that compares Logistic Regression, Random Forest, and XGBoost.
-*   `train_optimized.py`: The final, optimized multi-model script. It performs Hyperparameter Tuning on both **Logistic Regression** and **XGBoost** and exports both models (along with the required data scaler).
-*   `Train_Multi_Model_Colab.ipynb`: A Jupyter Notebook ready to be uploaded and run on Google Colab for fast GPU/cloud training.
+*   `scripts/train_models.py`: The original baseline training script that compares Logistic Regression, Random Forest, and XGBoost.
+*   `scripts/train_optimized.py`: The final, optimized multi-model script. It performs Hyperparameter Tuning on both **Logistic Regression** and **XGBoost** and exports both models (along with the required data scaler).
+*   `notebooks/Train_Multi_Model_Colab.ipynb`: A Jupyter Notebook ready to be uploaded and run on Google Colab for fast GPU/cloud training.
 *   `predict.py`: An inference script that loads the saved models and makes a prediction on a sample patient profile. Supports model switching.
 *   `app.py`: A sleek Streamlit web application that provides a user-friendly UI for making real-time predictions with an easy toggle between Logistic Regression and XGBoost.
-*   `combined_roc_curve.png`: ROC curve comparing model performance.
-*   `feature_importance.png`: Feature importance chart showing which medical indicators drive the predictions.
-*   `correlation_heatmap.png`: A heatmap showing the correlation between all health indicators.
-*   `confusion_matrices.png`: Confusion matrices evaluating the true/false positive rates for both models.
-*   `generate_graphs.py`: Script to generate the extended visual representations.
+*   `images/combined_roc_curve.png`: ROC curve comparing model performance.
+*   `images/feature_importance.png`: Feature importance chart showing which medical indicators drive the predictions.
+*   `images/correlation_heatmap.png`: A heatmap showing the correlation between all health indicators.
+*   `images/confusion_matrices.png`: Confusion matrices evaluating the true/false positive rates for both models.
+*   `scripts/generate_graphs.py`: Script to generate the extended visual representations.
 
 ## Setup Instructions
 
@@ -30,9 +30,9 @@ This repository contains an end-to-end machine learning pipeline to predict diab
     ```
 
 3.  **Run the Optimized Pipeline:**
-    To tune the model, train it, and export the final `.pkl` file:
+    To tune the model, train it, and export the final `.pkl` files to the `models/` folder:
     ```bash
-    python train_optimized.py
+    python scripts/train_optimized.py
     ```
 
 4.  **Run Inference (Terminal):**
@@ -60,15 +60,15 @@ Our tuned Logistic Regression model achieves an AUC of **~0.82**, while the XGBo
 ### Feature Importance (XGBoost)
 The most critical factors determined by the model for predicting diabetes are typically High Blood Pressure, BMI, General Health, and Age.
 
-![Feature Importance](feature_importance.png)
+![Feature Importance](images/feature_importance.png)
 
 ### Feature Correlation Heatmap
 This heatmap displays how strongly different health indicators correlate with one another and with diabetes.
-![Correlation Heatmap](correlation_heatmap.png)
+![Correlation Heatmap](images/correlation_heatmap.png)
 
 ### Confusion Matrices
 The confusion matrices break down the exact number of True Positives, True Negatives, False Positives, and False Negatives for both the Logistic Regression and XGBoost models.
-![Confusion Matrices](confusion_matrices.png)
+![Confusion Matrices](images/confusion_matrices.png)
 
 ### ROC Curves
-![ROC Curve](combined_roc_curve.png)
+![ROC Curve](images/combined_roc_curve.png)

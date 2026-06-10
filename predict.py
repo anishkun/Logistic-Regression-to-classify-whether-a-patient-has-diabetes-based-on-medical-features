@@ -10,11 +10,11 @@ def main():
                         help="Choose which model to use for prediction (default: logreg)")
     args = parser.parse_args()
 
-    model_file = 'best_logreg_model.pkl' if args.model == 'logreg' else 'best_xgboost_model.pkl'
+    model_file = 'models/best_logreg_model.pkl' if args.model == 'logreg' else 'models/best_xgboost_model.pkl'
     
     print(f"Loading the {args.model.upper()} model...")
     if not os.path.exists(model_file):
-        print(f"Error: '{model_file}' not found. Please run train_optimized.py first.")
+        print(f"Error: '{model_file}' not found. Please run scripts/train_optimized.py first.")
         sys.exit(1)
         
     model = joblib.load(model_file)
@@ -22,10 +22,10 @@ def main():
     # If using Logistic Regression, we MUST load the scaler and scale the input
     scaler = None
     if args.model == 'logreg':
-        if not os.path.exists('scaler.pkl'):
-            print("Error: 'scaler.pkl' not found. Required for Logistic Regression.")
+        if not os.path.exists('models/scaler.pkl'):
+            print("Error: 'models/scaler.pkl' not found. Required for Logistic Regression.")
             sys.exit(1)
-        scaler = joblib.load('scaler.pkl')
+        scaler = joblib.load('models/scaler.pkl')
 
     # Example patient data
     sample_patient = {

@@ -11,7 +11,7 @@ import time
 
 def main():
     print("Loading dataset...")
-    df = pd.read_csv('diabetes_binary_5050split_health_indicators_BRFSS2015.csv')
+    df = pd.read_csv('../data/diabetes_binary_5050split_health_indicators_BRFSS2015.csv')
 
     X = df.drop('Diabetes_binary', axis=1)
     y = df['Diabetes_binary']
@@ -29,7 +29,7 @@ def main():
     X_test_scaled = scaler.transform(X_test)
     
     # Save the scaler for inference!
-    joblib.dump(scaler, 'scaler.pkl')
+    joblib.dump(scaler, '../models/scaler.pkl')
 
     logreg = LogisticRegression(max_iter=1000)
     param_grid_lr = {
@@ -48,7 +48,7 @@ def main():
     print(f"Best LR Params: {random_search_lr.best_params_}")
     
     best_lr = random_search_lr.best_estimator_
-    joblib.dump(best_lr, 'best_logreg_model.pkl')
+    joblib.dump(best_lr, '../models/best_logreg_model.pkl')
     
     lr_y_pred_proba = best_lr.predict_proba(X_test_scaled)[:, 1]
     lr_test_auc = roc_auc_score(y_test, lr_y_pred_proba)
@@ -75,7 +75,7 @@ def main():
     print(f"Best XGB Params: {random_search_xgb.best_params_}")
     
     best_xgb = random_search_xgb.best_estimator_
-    joblib.dump(best_xgb, 'best_xgboost_model.pkl')
+    joblib.dump(best_xgb, '../models/best_xgboost_model.pkl')
     
     xgb_y_pred_proba = best_xgb.predict_proba(X_test)[:, 1]
     xgb_test_auc = roc_auc_score(y_test, xgb_y_pred_proba)
@@ -95,10 +95,10 @@ def main():
     plt.title('ROC Curves Comparison')
     plt.legend(loc='lower right')
     plt.grid(alpha=0.3)
-    plt.savefig('combined_roc_curve.png')
+    plt.savefig('../images/combined_roc_curve.png')
     plt.close()
     
-    print("Done! Exported 'best_logreg_model.pkl', 'best_xgboost_model.pkl', 'scaler.pkl', and 'combined_roc_curve.png'.")
+    print("Done! Exported models to '../models/' and images to '../images/'.")
 
 if __name__ == "__main__":
     main()

@@ -10,12 +10,12 @@ def load_assets():
     models = {}
     scaler = None
     
-    if os.path.exists('best_logreg_model.pkl'):
-        models['Logistic Regression'] = joblib.load('best_logreg_model.pkl')
-    if os.path.exists('best_xgboost_model.pkl'):
-        models['XGBoost'] = joblib.load('best_xgboost_model.pkl')
-    if os.path.exists('scaler.pkl'):
-        scaler = joblib.load('scaler.pkl')
+    if os.path.exists('models/best_logreg_model.pkl'):
+        models['Logistic Regression'] = joblib.load('models/best_logreg_model.pkl')
+    if os.path.exists('models/best_xgboost_model.pkl'):
+        models['XGBoost'] = joblib.load('models/best_xgboost_model.pkl')
+    if os.path.exists('models/scaler.pkl'):
+        scaler = joblib.load('models/scaler.pkl')
         
     return models, scaler
 
@@ -28,7 +28,7 @@ Select the Machine Learning model you wish to use for the prediction below.
 """)
 
 if not models:
-    st.error("No model files found. Please run the training script first.")
+    st.error("No model files found. Please run the training script first and ensure models are saved in the 'models/' directory.")
     st.stop()
 
 # Model Selection Toggle

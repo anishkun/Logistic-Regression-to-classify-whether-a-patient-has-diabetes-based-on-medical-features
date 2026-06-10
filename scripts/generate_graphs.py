@@ -8,7 +8,7 @@ import joblib
 
 def main():
     print("Loading data and models...")
-    df = pd.read_csv('diabetes_binary_5050split_health_indicators_BRFSS2015.csv')
+    df = pd.read_csv('../data/diabetes_binary_5050split_health_indicators_BRFSS2015.csv')
     
     X = df.drop('Diabetes_binary', axis=1)
     y = df['Diabetes_binary']
@@ -16,9 +16,9 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     
     # Load Models
-    logreg = joblib.load('best_logreg_model.pkl')
-    xgb = joblib.load('best_xgboost_model.pkl')
-    scaler = joblib.load('scaler.pkl')
+    logreg = joblib.load('../models/best_logreg_model.pkl')
+    xgb = joblib.load('../models/best_xgboost_model.pkl')
+    scaler = joblib.load('../models/scaler.pkl')
     
     # 1. Correlation Heatmap
     print("Generating Correlation Heatmap...")
@@ -29,7 +29,7 @@ def main():
     sns.heatmap(corr, mask=mask, annot=False, cmap='coolwarm', fmt=".2f", vmin=-1, vmax=1)
     plt.title("Feature Correlation Heatmap", fontsize=16)
     plt.tight_layout()
-    plt.savefig('correlation_heatmap.png')
+    plt.savefig('../images/correlation_heatmap.png')
     plt.close()
 
     # 2. Confusion Matrices
@@ -55,10 +55,10 @@ def main():
     axes[1].set_title('XGBoost Confusion Matrix')
     
     plt.tight_layout()
-    plt.savefig('confusion_matrices.png')
+    plt.savefig('../images/confusion_matrices.png')
     plt.close()
     
-    print("Successfully generated 'correlation_heatmap.png' and 'confusion_matrices.png'.")
+    print("Successfully generated '../images/correlation_heatmap.png' and '../images/confusion_matrices.png'.")
 
 if __name__ == "__main__":
     main()
