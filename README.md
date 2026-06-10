@@ -11,6 +11,9 @@ This repository contains an end-to-end machine learning pipeline to predict diab
 *   `app.py`: A sleek Streamlit web application that provides a user-friendly UI for making real-time predictions with an easy toggle between Logistic Regression and XGBoost.
 *   `combined_roc_curve.png`: ROC curve comparing model performance.
 *   `feature_importance.png`: Feature importance chart showing which medical indicators drive the predictions.
+*   `correlation_heatmap.png`: A heatmap showing the correlation between all health indicators.
+*   `confusion_matrices.png`: Confusion matrices evaluating the true/false positive rates for both models.
+*   `generate_graphs.py`: Script to generate the extended visual representations.
 
 ## Setup Instructions
 
@@ -54,10 +57,18 @@ This project perfectly fulfills the assignment requirement to use **Logistic Reg
 
 Our tuned Logistic Regression model achieves an AUC of **~0.82**, while the XGBoost model achieves an AUC of approximately **~0.83** on the hold-out test set, indicating strong discriminatory power between patients with and without diabetes.
 
-### Feature Importance
+### Feature Importance (XGBoost)
 The most critical factors determined by the model for predicting diabetes are typically High Blood Pressure, BMI, General Health, and Age.
 
 ![Feature Importance](feature_importance.png)
+
+### Feature Correlation Heatmap
+This heatmap displays how strongly different health indicators correlate with one another and with diabetes.
+![Correlation Heatmap](correlation_heatmap.png)
+
+### Confusion Matrices
+The confusion matrices break down the exact number of True Positives, True Negatives, False Positives, and False Negatives for both the Logistic Regression and XGBoost models.
+![Confusion Matrices](confusion_matrices.png)
 
 ### ROC Curves
 ![ROC Curve](combined_roc_curve.png)
