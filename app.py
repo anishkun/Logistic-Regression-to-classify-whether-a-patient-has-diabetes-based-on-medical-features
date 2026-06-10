@@ -109,3 +109,5 @@ if st.button("Predict Diabetes Risk", type="primary"):
     st.progress(float(probability))
         
     st.info("Disclaimer: This is a machine learning project for educational purposes and should not be used for actual medical diagnosis.")
+
+# End of Streamlit UI
