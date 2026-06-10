@@ -1,43 +1,41 @@
 import pandas as pd
 import joblib
 import sys
+import argparse
+import os
 
 def main():
-    print("Loading the trained XGBoost model...")
-    try:
-        model = joblib.load('best_xgboost_model.pkl')
-    except FileNotFoundError:
-        print("Error: 'best_xgboost_model.pkl' not found. Please run train_optimized.py first.")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Predict Diabetes Risk")
+    parser.add_argument('--model', type=str, choices=['logreg', 'xgboost'], default='logreg',
+                        help="Choose which model to use for prediction (default: logreg)")
+    args = parser.parse_args()
 
-    # Example of a patient's medical features (you would normally take these as inputs)
-    # The columns must match exactly what the model was trained on.
-    # The dataset features are based on BRFSS 2015.
+    model_file = 'best_logreg_model.pkl' if args.model == 'logreg' else 'best_xgboost_model.pkl'
+    
+    print(f"Loading the {args.model.upper()} model...")
+    if not os.path.exists(model_file):
+        print(f"Error: '{model_file}' not found. Please run train_optimized.py first.")
+        sys.exit(1)
+        
+    model = joblib.load(model_file)
+
+    # If using Logistic Regression, we MUST load the scaler and scale the input
+    scaler = None
+    if args.model == 'logreg':
+        if not os.path.exists('scaler.pkl'):
+            print("Error: 'scaler.pkl' not found. Required for Logistic Regression.")
+            sys.exit(1)
+        scaler = joblib.load('scaler.pkl')
+
+    # Example patient data
     sample_patient = {
-        'HighBP': 1.0,
-        'HighChol': 1.0,
-        'CholCheck': 1.0,
-        'BMI': 32.0,
-        'Smoker': 1.0,
-        'Stroke': 0.0,
-        'HeartDiseaseorAttack': 0.0,
-        'PhysActivity': 0.0,
-        'Fruits': 0.0,
-        'Veggies': 1.0,
-        'HvyAlcoholConsump': 0.0,
-        'AnyHealthcare': 1.0,
-        'NoDocbcCost': 0.0,
-        'GenHlth': 4.0,
-        'MentHlth': 10.0,
-        'PhysHlth': 15.0,
-        'DiffWalk': 1.0,
-        'Sex': 1.0, # 1: Male, 0: Female
-        'Age': 9.0, # Age category 9 is 60-64
-        'Education': 4.0,
-        'Income': 5.0
+        'HighBP': 1.0, 'HighChol': 1.0, 'CholCheck': 1.0, 'BMI': 32.0, 'Smoker': 1.0,
+        'Stroke': 0.0, 'HeartDiseaseorAttack': 0.0, 'PhysActivity': 0.0, 'Fruits': 0.0,
+        'Veggies': 1.0, 'HvyAlcoholConsump': 0.0, 'AnyHealthcare': 1.0, 'NoDocbcCost': 0.0,
+        'GenHlth': 4.0, 'MentHlth': 10.0, 'PhysHlth': 15.0, 'DiffWalk': 1.0,
+        'Sex': 1.0, 'Age': 9.0, 'Education': 4.0, 'Income': 5.0
     }
 
-    # Convert to DataFrame (XGBoost expects a 2D array or DataFrame)
     df_patient = pd.DataFrame([sample_patient])
     
     print("\n--- Sample Patient Profile ---")
@@ -45,10 +43,17 @@ def main():
         print(f"{key}: {value}")
     
     print("\nPredicting diabetes risk...")
-    # predict_proba returns an array like [[prob_class_0, prob_class_1]]
-    probability = model.predict_proba(df_patient)[0][1]
     
-    print(f"\n=> The model predicts a {probability * 100:.2f}% probability that this patient has diabetes.")
+    # Scale data if using Logistic Regression
+    if args.model == 'logreg':
+        # The scaler expects the exact column order used during training
+        features_to_predict = scaler.transform(df_patient)
+    else:
+        features_to_predict = df_patient
+
+    probability = model.predict_proba(features_to_predict)[0][1]
+    
+    print(f"\n=> The {args.model.upper()} model predicts a {probability * 100:.2f}% probability that this patient has diabetes.")
     
     if probability > 0.5:
         print("=> Assessment: HIGH RISK")

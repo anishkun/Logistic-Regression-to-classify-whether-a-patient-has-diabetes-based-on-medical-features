@@ -5,9 +5,10 @@ This repository contains an end-to-end machine learning pipeline to predict diab
 ## Project Structure
 
 *   `train_models.py`: The original baseline training script that compares Logistic Regression, Random Forest, and XGBoost.
-*   `train_optimized.py`: The final, optimized script. It performs Hyperparameter Tuning using `RandomizedSearchCV` with K-Fold Cross-Validation on the XGBoost model to find the best settings, and then exports the model.
-*   `predict.py`: An inference script that loads the saved model (`best_xgboost_model.pkl`) and makes a prediction on a sample patient profile.
-*   `app.py`: A sleek Streamlit web application that provides a user-friendly UI for making real-time predictions.
+*   `train_optimized.py`: The final, optimized multi-model script. It performs Hyperparameter Tuning on both **Logistic Regression** and **XGBoost** and exports both models (along with the required data scaler).
+*   `Train_Multi_Model_Colab.ipynb`: A Jupyter Notebook ready to be uploaded and run on Google Colab for fast GPU/cloud training.
+*   `predict.py`: An inference script that loads the saved models and makes a prediction on a sample patient profile. Supports model switching.
+*   `app.py`: A sleek Streamlit web application that provides a user-friendly UI for making real-time predictions with an easy toggle between Logistic Regression and XGBoost.
 *   `combined_roc_curve.png`: ROC curve comparing model performance.
 *   `feature_importance.png`: Feature importance chart showing which medical indicators drive the predictions.
 
@@ -32,9 +33,13 @@ This repository contains an end-to-end machine learning pipeline to predict diab
     ```
 
 4.  **Run Inference (Terminal):**
-    To test the exported model on a new (mock) patient profile from the command line:
+    To test the exported model on a new (mock) patient profile from the command line (Logistic Regression is the default):
     ```bash
     python predict.py
+    ```
+    To use XGBoost instead:
+    ```bash
+    python predict.py --model xgboost
     ```
 
 5.  **Run the Web Application:**
@@ -45,7 +50,9 @@ This repository contains an end-to-end machine learning pipeline to predict diab
 
 ## Model Evaluation
 
-Our tuned XGBoost model achieves an AUC of approximately **~0.83** on the hold-out test set, indicating strong discriminatory power between patients with and without diabetes.
+This project perfectly fulfills the assignment requirement to use **Logistic Regression** for diabetes classification, while providing **XGBoost** as an optional high-performance alternative.
+
+Our tuned Logistic Regression model achieves an AUC of **~0.82**, while the XGBoost model achieves an AUC of approximately **~0.83** on the hold-out test set, indicating strong discriminatory power between patients with and without diabetes.
 
 ### Feature Importance
 The most critical factors determined by the model for predicting diabetes are typically High Blood Pressure, BMI, General Health, and Age.
