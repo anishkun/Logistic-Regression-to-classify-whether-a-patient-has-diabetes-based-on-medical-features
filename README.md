@@ -13,6 +13,9 @@ This repository contains an end-to-end machine learning pipeline to predict diab
 *   `images/feature_importance.png`: Feature importance chart showing which medical indicators drive the predictions.
 *   `images/correlation_heatmap.png`: A heatmap showing the correlation between all health indicators.
 *   `images/confusion_matrices.png`: Confusion matrices evaluating the true/false positive rates for both models.
+*   `images/class_distribution.png`: Bar chart showing the target variable distribution.
+*   `images/bmi_distribution.png`: Violin plot comparing BMI across diabetes status.
+*   `images/probability_distribution.png`: Histogram showing model confidence levels.
 *   `scripts/generate_graphs.py`: Script to generate the extended visual representations.
 
 ## Setup Instructions
@@ -65,6 +68,14 @@ The most critical factors determined by the model for predicting diabetes are ty
 ### Feature Correlation Heatmap
 This heatmap displays how strongly different health indicators correlate with one another and with diabetes.
 ![Correlation Heatmap](images/correlation_heatmap.png)
+
+### Data Insights: BMI vs Diabetes
+Visualizing the distribution of BMI for patients with and without diabetes.
+![BMI Distribution](images/bmi_distribution.png)
+
+### Model Confidence & Probability Distribution
+This chart shows how confident the XGBoost model is when making predictions.
+![Probability Distribution](images/probability_distribution.png)
 
 ### Confusion Matrices
 The confusion matrices break down the exact number of True Positives, True Negatives, False Positives, and False Negatives for both the Logistic Regression and XGBoost models.
